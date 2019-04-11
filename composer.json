@@ -1,0 +1,20 @@
+{
+  "name": "vicens/laravel-sms",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "vicens",
+      "email": "521287718@qq.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "illuminate/support": "^5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vicens\\LaravelSms": "src/"
+    }
+  }
+}
