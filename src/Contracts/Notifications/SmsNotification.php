@@ -2,16 +2,19 @@
 
 namespace Vicens\LaravelSms\Contracts\Notifications;
 
-use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Notifications\Notifiable;
-use Vicens\LaravelSms\Contracts\Messages\Message;
+use Vicens\LaravelSms\Contracts\Messages\{
+    Message,
+    TemplateMessage,
+    ContentMessage
+};
 
 interface SmsNotification
 {
     /**
      * 返回消息实例
-     * @param Notifiable|AnonymousNotifiable $notifiable
-     * @return Message
+     *
+     * @param $notifiable
+     * @return Message|TemplateMessage|ContentMessage
      */
     public function toSms($notifiable);
 }

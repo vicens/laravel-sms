@@ -4,17 +4,30 @@ namespace Vicens\LaravelSms\Channels;
 
 use Vicens\LaravelSms\Contracts\Messages\Message;
 use Vicens\LaravelSms\Contracts\Notifications\SmsNotification;
-use Vicens\LaravelSms\Facades\Sms;
-use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Notifications\Notifiable;
+use Vicens\LaravelSms\Manager;
 
 class SmsChannel
 {
 
     /**
+     * @var Manager
+     */
+    protected $sender;
+
+    /**
+     * SmsChannel constructor.
+     *
+     * @param Manager $sender
+     */
+    public function __construct(Manager $sender)
+    {
+        $this->sender = $sender;
+    }
+
+    /**
      * 发送短信
      *
-     * @param AnonymousNotifiable|Notifiable $notifiable
+     * @param $notifiable
      * @param SmsNotification $notification
      *
      * @return bool
@@ -36,14 +49,14 @@ class SmsChannel
      */
     protected function getDriverForMessage(Message $message)
     {
-        return method_exists($message, 'driver') ? $message->driver() : Sms::getDefaultDriver();
+        return method_exists($message, 'driver') ? $message->driver() : null;
     }
 
 
     /**
      * 获取手机号
      *
-     * @param AnonymousNotifiable|Notifiable $notifiable $notifiable
+     * @param $notifiable
      * @return string
      */
     protected function getMobileFromNotifiable($notifiable)
@@ -54,7 +67,7 @@ class SmsChannel
     /**
      * 获取消息实例
      *
-     * @param AnonymousNotifiable|Notifiable $notifiable
+     * @param $notifiable
      * @param SmsNotification $notification
      * @return Message
      */
@@ -73,6 +86,6 @@ class SmsChannel
      */
     protected function sendMessage($mobile, Message $message, $driver = null)
     {
-        return Sms::driver($driver)->send($mobile, $message);
+        return $this->sender->driver($driver)->send($mobile, $message);
     }
 }

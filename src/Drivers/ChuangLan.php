@@ -51,7 +51,7 @@ class ChuangLan extends AbstractDriver
      * @param ContentMessage $message
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Packages\LaravelSms\Exceptions\SmsSendException
+     * @throws \Vicens\LaravelSms\Exceptions\SmsSendException
      */
     public function send($mobile, ContentMessage $message)
     {

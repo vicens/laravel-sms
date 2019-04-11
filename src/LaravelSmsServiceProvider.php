@@ -7,7 +7,7 @@ use Vicens\LaravelSms\Contracts\Channels\SmsChannel as SmsChannelInterface;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
-class ServiceProvider extends LaravelServiceProvider
+class LaravelSmsServiceProvider extends LaravelServiceProvider
 {
 
     protected $defer = true;

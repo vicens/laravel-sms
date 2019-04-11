@@ -125,7 +125,7 @@ abstract class AbstractDriver implements Driver
     protected function decodeResponse(ResponseInterface $response)
     {
         $contentType = $response->getHeaderLine('Content-Type');
-        $content = $response->getBody()->getContents();
+        $content = (string)$response->getBody();
 
         if ($content) {
             foreach (static::CONVERTERS as $types => $parser) {

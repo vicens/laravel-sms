@@ -1,7 +1,12 @@
 {
   "name": "vicens/laravel-sms",
   "type": "library",
-  "license": "MIT",
+  "description": "Laravel SMS.",
+  "keywords": [
+    "laravel",
+    "sms",
+    "notification"
+  ],
   "authors": [
     {
       "name": "vicens",
@@ -9,13 +14,29 @@
     }
   ],
   "require": {
+    "php": "^7.0.0",
     "ext-json": "*",
+    "ext-simplexml": "*",
     "illuminate/support": "^5.5",
     "guzzlehttp/guzzle": "^6.3"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0"
+  },
   "autoload": {
     "psr-4": {
-      "Vicens\\LaravelSms": "src/"
+      "Vicens\\LaravelSms\\": "src/"
     }
-  }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Vicens\\LaravelSms\\LaravelSmsServiceProvider"
+      ],
+      "aliases": {
+        "Sms": "Vicens\\LaravelSms\\Facades\\Sms"
+      }
+    }
+  },
+  "license": "MIT"
 }

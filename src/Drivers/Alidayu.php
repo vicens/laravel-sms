@@ -74,7 +74,7 @@ class Alidayu extends AbstractDriver implements TemplateMessageDriver
      * @param TemplateMessage $message
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Packages\LaravelSms\Exceptions\SmsSendException
+     * @throws \Vicens\LaravelSms\Exceptions\SmsSendException
      */
     public function send($mobile, TemplateMessage $message)
     {
@@ -88,7 +88,7 @@ class Alidayu extends AbstractDriver implements TemplateMessageDriver
             'method' => static::METHOD,
             'sms_type' => 'normal',
             'rec_num' => $mobile,
-            'sms_template_code' => $message->getTemplate(),
+            'sms_template_code' => $message->getTemplateId(),
             'sms_free_sign_name' => $this->sign,
             'sms_param' => json_encode($message->getParameters())
         ];

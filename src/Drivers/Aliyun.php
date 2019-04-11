@@ -44,7 +44,7 @@ class Aliyun extends AbstractDriver
      * @param TemplateMessage $message
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Packages\LaravelSms\Exceptions\SmsSendException
+     * @throws \Vicens\LaravelSms\Exceptions\SmsSendException
      */
     public function send($mobile, TemplateMessage $message)
     {
@@ -63,7 +63,7 @@ class Aliyun extends AbstractDriver
             'AccessKeyId' => $this->accessKeyId,
             'PhoneNumbers' => $mobile,
             'SignName' => $this->sign,
-            'TemplateCode' => $message->getTemplate(),
+            'TemplateCode' => $message->getTemplateId(),
             'TemplateParam' => json_encode($message->getParameters(), JSON_UNESCAPED_UNICODE),
         ];
 
