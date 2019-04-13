@@ -2,7 +2,6 @@
 
 namespace Vicens\LaravelSms;
 
-use Vicens\LaravelSms\Drivers\Alidayu;
 use Vicens\LaravelSms\Drivers\Aliyun;
 use Vicens\LaravelSms\Drivers\ChuangLan;
 use Illuminate\Support\Facades\Config;
@@ -25,16 +24,6 @@ class Manager extends BaseManager
     public function getDefaultDriver()
     {
         return Config::get('sms.default');
-    }
-
-    /**
-     * 阿里大于驱动
-     *
-     * @return Alidayu
-     */
-    protected function createAlidayuDriver()
-    {
-        return new Alidayu(Config::get('sms.alidayu', []));
     }
 
     /**

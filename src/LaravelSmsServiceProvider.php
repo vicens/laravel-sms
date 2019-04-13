@@ -10,6 +10,11 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 class LaravelSmsServiceProvider extends LaravelServiceProvider
 {
 
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
     protected $defer = true;
 
     /**

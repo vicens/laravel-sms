@@ -189,6 +189,8 @@ abstract class AbstractDriver implements Driver
     }
 
     /**
+     * Send SmsSend Exception.
+     *
      * @param string $mobile
      * @param Message $message
      * @param string $error
@@ -204,7 +206,27 @@ abstract class AbstractDriver implements Driver
         $code = 0,
         $result = null,
         \Throwable $throwable = null
-    ) {
+    )
+    {
         throw new SmsSendException($mobile, $message, $error, (int)$code, $result, $throwable);
+    }
+
+    /**
+     * Get property from message.
+     *
+     * @param Message $message
+     * @param string $property
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function getMessageProperty(Message $message, $property, $default = null)
+    {
+        if (property_exists($message, $property)) {
+            return $message->$property;
+        } elseif (method_exists($message, $property)) {
+            return $message->$property();
+        }
+
+        return $default;
     }
 }

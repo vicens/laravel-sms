@@ -38,6 +38,20 @@ class Aliyun extends AbstractDriver
     protected $secure = false;
 
     /**
+     * Region.
+     *
+     * @var string
+     */
+    protected $region = 'cn-hangzhou';
+
+    /**
+     * Version.
+     *
+     * @var string
+     */
+    protected $version = '2017-05-25';
+
+    /**
      * 发送短信
      *
      * @param $mobile
@@ -49,31 +63,36 @@ class Aliyun extends AbstractDriver
     public function send($mobile, TemplateMessage $message)
     {
 
-        $params = [
-            "SignatureMethod" => "HMAC-SHA1",
+        $region = $this->getMessageProperty($message, 'region', $this->region);
+        $version = $this->getMessageProperty($message, 'version', $this->version);
+        $outId = $this->getMessageProperty($message, 'outId');
+        $smsUpExtendCode = $this->getMessageProperty($message, 'smsUpExtendCode');
+
+        $params = array_filter([
+            "SignatureMethod" => 'HMAC-SHA1',
             "SignatureNonce" => uniqid(mt_rand(0, 0xffff), true),
-            "SignatureVersion" => "1.0",
-            "Timestamp" => gmdate("Y-m-d\TH:i:s\Z"),
-            "Format" => "JSON",
-            "RegionId" => "cn-hangzhou",
-            "Action" => "SendSms",
-            "Version" => "2017-05-25",
-//            'OutId'=>null,
-//            'SmsUpExtendCode'=>null,
+            "SignatureVersion" => '1.0',
+            "Timestamp" => gmdate('Y-m-d\TH:i:s\Z'),
+            "Format" => 'JSON',
+            "RegionId" => $region,
+            "Action" => 'SendSms',
+            "Version" => $version,
+            'OutId' => $outId,
+            'SmsUpExtendCode' => $smsUpExtendCode,
             'AccessKeyId' => $this->accessKeyId,
             'PhoneNumbers' => $mobile,
             'SignName' => $this->sign,
             'TemplateCode' => $message->getTemplateId(),
             'TemplateParam' => json_encode($message->getParameters(), JSON_UNESCAPED_UNICODE),
-        ];
+        ]);
 
         $url = ($this->secure ? 'https' : 'http') . '://' . static::DOMAIN;
 
         ksort($params);
 
-        $queryString = "";
+        $queryString = '';
         foreach ($params as $key => $value) {
-            $queryString .= "&" . $this->encode($key) . "=" . $this->encode($value);
+            $queryString .= '&' . $this->encode($key) . '=' . $this->encode($value);
         }
 
         $result = $this->get($url, [], [
@@ -98,9 +117,9 @@ class Aliyun extends AbstractDriver
     protected function buildSignature($queryString)
     {
 
-        $stringToSign = "GET&%2F&" . $this->encode(substr($queryString, 1));
+        $stringToSign = 'GET&%2F&' . $this->encode(substr($queryString, 1));
 
-        $sign = base64_encode(hash_hmac("sha1", $stringToSign, $this->accessKeySecret . "&", true));
+        $sign = base64_encode(hash_hmac('sha1', $stringToSign, $this->accessKeySecret . '&', true));
 
         return $this->encode($sign);
     }
@@ -120,6 +139,10 @@ class Aliyun extends AbstractDriver
         return $res;
     }
 
+    /**
+     * @param array $params
+     * @return string
+     */
     protected function getUrl(array $params)
     {
         $url = ($this->secure ? 'https' : 'http') . '://' . static::DOMAIN;
